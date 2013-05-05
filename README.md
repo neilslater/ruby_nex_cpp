@@ -1,5 +1,7 @@
 # Baz
 
+[![Build Status](https://travis-ci.org/neilslater/ruby_nex_cpp.png?branch=master)](http://travis-ci.org/neilslater/ruby_nex_cpp)
+
 Example of gem that combines Ruby and C++ native extension.
 
 ## Installation
