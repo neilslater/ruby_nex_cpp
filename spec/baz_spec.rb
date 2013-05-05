@@ -8,7 +8,7 @@ describe Baz do
   end
   describe "#ext_test" do
     it "should return 3908" do
-      Foo.ext_test.should == 3908
+      Baz.ext_test.should == 3908
     end
   end
 end
