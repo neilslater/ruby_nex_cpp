@@ -10,11 +10,11 @@ Gem::Specification.new do |gem|
   gem.email         = ["slobo.777@gmail.com"]
   gem.description   = %q{Starter gem with native extensions in C++}
   gem.summary       = %q{Native extension in C++}
-  gem.homepage      = "http://slobo777.deviantart.com/"
+  gem.homepage      = "https://github.com/neilslater/ruby_nex_cpp"
 
   gem.add_development_dependency "rspec", ">= 2.13.0"
   gem.add_development_dependency "rake", ">= 1.9.1"
-  gem.add_development_dependency "rake-compiler"
+  gem.add_development_dependency "rake-compiler", ">= 0.8.3"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
