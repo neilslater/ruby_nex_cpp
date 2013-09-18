@@ -5,7 +5,7 @@
 // Baz is the module object
 VALUE Baz = Qnil;
 
-VALUE method_ext_test(VALUE self) {
+extern "C" VALUE method_ext_test(VALUE self) {
   return INT2FIX( 3908 );
 }
 
