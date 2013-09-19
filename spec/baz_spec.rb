@@ -12,3 +12,29 @@ describe Baz do
     end
   end
 end
+
+describe Baz::Vector do
+  describe "class method" do
+    describe "#new" do
+      it "should create a new valid Baz::Vector object" do
+        Baz::Vector.new( 0, 0 ).should be_a Baz::Vector
+      end
+
+      it "should reject non-numbers when instantiating" do
+        lambda { Baz::Vector.new( 'x', 0.0 ) }.should raise_error TypeError
+        lambda { Baz::Vector.new( 0, {}) }.should raise_error TypeError
+        lambda { Baz::Vector.new( 0, [] ) }.should raise_error TypeError
+      end
+    end
+  end
+
+  describe "instance method" do
+    let(:bv) { Baz::Vector.new( 1.0, 2.0 ) }
+
+    describe "#magnitude" do
+      it "should return length of a vector" do
+        bv.magnitude.should be_within(1e-9).of Math.sqrt( 5.0 )
+      end
+    end
+  end
+end
