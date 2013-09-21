@@ -13,6 +13,8 @@ void rb_delete_bvector( BVector *p_bvector ) {
     return;
 }
 
+// TODO: Object clone
+
 // Ruby low-level integration
 
 VALUE BazVector = Qnil;
@@ -69,4 +71,3 @@ void init_baz_vector( VALUE parent_module ) {
   rb_define_method( BazVector, "initialize", (VALUE(*)(ANYARGS))baz_vector_initialize, 2 );
   rb_define_method( BazVector, "magnitude", (VALUE(*)(ANYARGS))baz_vector_magnitude, 0 );
 }
-
