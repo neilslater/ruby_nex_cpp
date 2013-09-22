@@ -13,8 +13,6 @@ void rb_delete_bvector( BVector *p_bvector ) {
     return;
 }
 
-// TODO: Object clone
-
 // Ruby low-level integration
 
 VALUE BazVector = Qnil;
@@ -54,6 +52,19 @@ extern "C" VALUE baz_vector_initialize( VALUE self, VALUE init_x, VALUE init_y )
   return self;
 }
 
+// Native extensions version of initialize
+extern "C" VALUE baz_vector_initialize_copy( VALUE copy, VALUE orig ) {
+  BVector *bv_copy;
+  BVector *bv_orig;
+
+  if (copy == orig) return copy;
+  bv_copy = get_bvector( copy );
+  bv_orig = get_bvector( orig );
+  memcpy( bv_copy, bv_orig, sizeof(BVector) );
+
+  return copy;
+}
+
 // Example of using a "native" struct method
 extern "C" VALUE baz_vector_magnitude( VALUE self ) {
   BVector *p_bvector = get_bvector( self );
@@ -69,5 +80,6 @@ void init_baz_vector( VALUE parent_module ) {
   BazVector = rb_define_class_under( parent_module, "Vector", rb_cObject );
   rb_define_alloc_func( BazVector, bv_alloc );
   rb_define_method( BazVector, "initialize", (VALUE(*)(ANYARGS))baz_vector_initialize, 2 );
+  rb_define_method( BazVector, "initialize_copy", (VALUE(*)(ANYARGS))baz_vector_initialize_copy, 1 );
   rb_define_method( BazVector, "magnitude", (VALUE(*)(ANYARGS))baz_vector_magnitude, 0 );
 }

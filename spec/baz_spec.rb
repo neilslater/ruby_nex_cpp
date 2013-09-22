@@ -36,5 +36,14 @@ describe Baz::Vector do
         bv.magnitude.should be_within(1e-9).of Math.sqrt( 5.0 )
       end
     end
+
+    describe "#clone" do
+      it "should create a copy of a vector, including C++ data" do
+        bv_copy = bv.clone
+        bv_copy.should be_a Baz::Vector
+        bv_copy.object_id.should_not == bv.object_id
+        bv_copy.magnitude.should be_within(1e-9).of Math.sqrt( 5.0 )
+      end
+    end
   end
 end
