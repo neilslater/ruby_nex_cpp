@@ -32,11 +32,12 @@ for other gems with both Ruby and C++ code.
 ## Warning
 
 The code still contains some "Cargo Cult" syntax where I am not sure
-whether it is necessary or best practice. For instance in the line
+whether it is necessary or best practice. For instance I do not know
+what the typecast
 
-    extern "C" VALUE baz_vector_magnitude( VALUE self )
+    (VALUE(*)(ANYARGS)) function_name
 
-I do not know whether the 'extern "C"' is doing anything useful.
+is actually doing.
 
 ## Contributing
 

@@ -56,7 +56,7 @@ void assert_value_wraps_bvector( VALUE obj ) {
 //
 
 // Native extensions version of initialize
-extern "C" VALUE baz_vector_initialize( VALUE self, VALUE init_x, VALUE init_y ) {
+VALUE baz_vector_initialize( VALUE self, VALUE init_x, VALUE init_y ) {
   BVector *p_bvector = get_bvector( self );
 
   p_bvector->set_xy( NUM2DBL( init_x ), NUM2DBL( init_y ) );
@@ -65,7 +65,7 @@ extern "C" VALUE baz_vector_initialize( VALUE self, VALUE init_x, VALUE init_y )
 }
 
 // Native extensions version of clone
-extern "C" VALUE baz_vector_initialize_copy( VALUE copy, VALUE orig ) {
+VALUE baz_vector_initialize_copy( VALUE copy, VALUE orig ) {
   BVector *bv_copy;
   BVector *bv_orig;
 
@@ -78,7 +78,7 @@ extern "C" VALUE baz_vector_initialize_copy( VALUE copy, VALUE orig ) {
 }
 
 // Example of using a "native" struct method
-extern "C" VALUE baz_vector_magnitude( VALUE self ) {
+VALUE baz_vector_magnitude( VALUE self ) {
   BVector *p_bvector = get_bvector( self );
   return DBL2NUM( p_bvector->magnitude() );
 }
