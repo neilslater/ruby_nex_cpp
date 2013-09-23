@@ -1,8 +1,17 @@
 // ext/baz/baz_vector_ruby.cpp
 
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Definitions for Ruby wrappers to BVector class
+//
+///////////////////////////////////////////////////////////////////////////////
+
 #include "baz_vector_ruby.h"
 
-// Memory management
+///////////////////////////////////////////////////////////////////////////////
+//
+// Memory management. TODO: Check best practice for this.
+//
 
 BVector *rb_create_bvector() {
     return new BVector();
@@ -13,7 +22,10 @@ void rb_delete_bvector( BVector *p_bvector ) {
     return;
 }
 
-// Ruby low-level integration
+///////////////////////////////////////////////////////////////////////////////
+//
+// Low-level Ruby integration
+//
 
 VALUE BazVector = Qnil;
 
@@ -38,10 +50,10 @@ void assert_value_wraps_bvector( VALUE obj ) {
   }
 }
 
-/*
- * Functions that can be bound to a Ruby class
- *
-*/
+///////////////////////////////////////////////////////////////////////////////
+//
+// Ruby methods exposed in the class API
+//
 
 // Native extensions version of initialize
 extern "C" VALUE baz_vector_initialize( VALUE self, VALUE init_x, VALUE init_y ) {
@@ -52,7 +64,7 @@ extern "C" VALUE baz_vector_initialize( VALUE self, VALUE init_x, VALUE init_y )
   return self;
 }
 
-// Native extensions version of initialize
+// Native extensions version of clone
 extern "C" VALUE baz_vector_initialize_copy( VALUE copy, VALUE orig ) {
   BVector *bv_copy;
   BVector *bv_orig;
@@ -71,10 +83,10 @@ extern "C" VALUE baz_vector_magnitude( VALUE self ) {
   return DBL2NUM( p_bvector->magnitude() );
 }
 
-/*
- * Create bindings, should be called as part of library initialisation
- *
-*/
+///////////////////////////////////////////////////////////////////////////////
+//
+// Build Ruby class <Namespace>::Vector
+//
 
 void init_baz_vector( VALUE parent_module ) {
   BazVector = rb_define_class_under( parent_module, "Vector", rb_cObject );

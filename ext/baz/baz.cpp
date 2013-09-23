@@ -1,10 +1,14 @@
 // ext/baz/baz.cpp
 
-#include <ruby.h>
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Entrance point to library, Init_baz() is called during require. Ruby
+//  module and class definitions are set up on this call.
+//
+///////////////////////////////////////////////////////////////////////////////
 
 #include "baz_module_ruby.h"
 
-// Make bindings (C-style calls required for Ruby to bind) . . .
 extern "C" void Init_baz() {
   init_baz_module();
 }
