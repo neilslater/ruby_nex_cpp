@@ -19,6 +19,8 @@ VALUE method_ext_test(VALUE self) {
 // Bind methods for example module
 void init_baz_module() {
   Baz  = rb_define_module("Baz");
+  // (VALUE(*)(ANYARGS))  is effectively  (unsigned long(*)(...)) or similar, and required
+  // because C++ won't compile using a NULL pointer as a method.
   rb_define_singleton_method( Baz, "ext_test", (VALUE(*)(ANYARGS))method_ext_test, 0 );
 
   // Builds Ruby class Baz::Vector (function definition in baz_vector_ruby.cpp)
