@@ -8,7 +8,7 @@ describe Baz do
   end
   describe "#ext_test" do
     it "should return 3908" do
-      expect( Baz.ext_test).to be 3908
+      expect( Baz.ext_test ).to be 3908
     end
   end
 end
@@ -22,7 +22,7 @@ describe Baz::Vector do
 
       it "should reject non-numbers when instantiating" do
         expect { Baz::Vector.new( 'x', 0.0 ) }.to raise_error TypeError
-        expect { Baz::Vector.new( 0, {}) }.to raise_error TypeError
+        expect { Baz::Vector.new( 0, {} ) }.to raise_error TypeError
         expect { Baz::Vector.new( 0, [] ) }.to raise_error TypeError
       end
     end
