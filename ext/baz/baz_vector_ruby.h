@@ -12,6 +12,7 @@
 #include "baz_vector_lib.h"
 #include <ruby.h>
 
+// Defines Baz::Vector beneath parent_module and exposes its native methods.
 void init_baz_vector( VALUE parent_module );
 
 #endif
