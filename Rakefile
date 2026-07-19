@@ -13,7 +13,7 @@ end
 gemspec = Gem::Specification.load('baz.gemspec')
 Rake::ExtensionTask.new do |ext|
   ext.name = 'baz'
-  ext.source_pattern = '*.{c,cpp}'
+  ext.source_pattern = '*.cpp'
   ext.ext_dir = 'ext/baz'
   ext.lib_dir = 'lib/baz'
   ext.gem_spec = gemspec

@@ -11,6 +11,7 @@
 
 #include <ruby.h>
 
-void init_baz_module();
+// Creates the top-level Baz module and attaches its native methods and classes.
+void init_baz_module(void);
 
 #endif
