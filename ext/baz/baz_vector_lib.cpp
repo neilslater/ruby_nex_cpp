@@ -8,21 +8,13 @@
 
 #include "baz_vector_lib.h"
 
-BVector::BVector() {
-    x = 0.0;
-    y = 0.0;
-}
+BVector::BVector() noexcept : x(0.0), y(0.0) {}
 
-BVector::~BVector() {
-    // Nothing to do
-}
-
-void BVector::set_xy( double ix, double iy ) {
+void BVector::set_xy( double ix, double iy ) noexcept {
     x = ix;
     y = iy;
-    return;
 }
 
-double BVector::magnitude() {
-    return sqrt( x * x + y * y );
+double BVector::magnitude() const noexcept {
+    return std::sqrt( x * x + y * y );
 }

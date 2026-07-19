@@ -9,15 +9,14 @@
 #ifndef BAZ_VECTOR_LIB_H
 #define BAZ_VECTOR_LIB_H
 
-#include <math.h>
+#include <cmath>
 
 class BVector {
     public:
-        BVector();
-        ~BVector();
+        BVector() noexcept;
 
-        void set_xy( double ix, double iy );
-        double magnitude();
+        void set_xy( double ix, double iy ) noexcept;
+        double magnitude() const noexcept;
 
     private:
         double x;

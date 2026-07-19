@@ -9,6 +9,8 @@
 
 #include "baz_module_ruby.h"
 
-extern "C" void Init_baz() {
-  init_baz_module();
+extern "C" {
+  RUBY_FUNC_EXPORTED void Init_baz(void) {
+    init_baz_module();
+  }
 }

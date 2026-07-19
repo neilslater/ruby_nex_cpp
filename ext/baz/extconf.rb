@@ -2,6 +2,5 @@
 
 # ext/baz/extconf.rb
 require 'mkmf'
-have_library('stdc++')
-$CFLAGS << ' -Wall'
+$CXXFLAGS << ' -Wall -Wextra -Wpedantic'
 create_makefile('baz/baz')

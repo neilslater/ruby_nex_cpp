@@ -2,96 +2,76 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Definitions for Ruby wrappers to BVector class
+// Ruby bindings for the standalone C++ BVector class. Ruby owns the storage;
+// allocation constructs the C++ object in place and the typed-data free
+// callback runs its destructor before releasing that storage.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "baz_vector_ruby.h"
 
-///////////////////////////////////////////////////////////////////////////////
-//
-// Memory management. TODO: Check best practice for this.
-//
+#include <new>
 
-BVector *rb_create_bvector() {
-    return new BVector();
+static VALUE baz_vector_class = Qnil;
+
+static void bvector_free(void *pointer) {
+  BVector *vector = static_cast<BVector *>(pointer);
+  vector->~BVector();
+  ruby_xfree(vector);
 }
 
-void rb_delete_bvector( BVector *p_bvector ) {
-    delete p_bvector;
-    return;
+static size_t bvector_size(const void *pointer) {
+  (void)pointer;
+  return sizeof(BVector);
 }
 
-///////////////////////////////////////////////////////////////////////////////
-//
-// Low-level Ruby integration
-//
+static const rb_data_type_t bvector_type = {
+  "Baz::Vector",
+  {nullptr, bvector_free, bvector_size, nullptr, {nullptr}},
+  nullptr,
+  nullptr,
+  RUBY_TYPED_FREE_IMMEDIATELY
+};
 
-VALUE BazVector = Qnil;
-
-inline VALUE bvector_as_ruby_class( BVector *p_bvector , VALUE klass ) {
-  return Data_Wrap_Struct( klass, 0, rb_delete_bvector, p_bvector );
+static VALUE bvector_alloc(VALUE klass) {
+  BVector *vector;
+  VALUE object = TypedData_Make_Struct(klass, BVector, &bvector_type, vector);
+  // BVector's noexcept constructor makes placement construction safe here.
+  new (vector) BVector();
+  return object;
 }
 
-VALUE bv_alloc(VALUE klass) {
-  return bvector_as_ruby_class( rb_create_bvector(), klass );
+static BVector *get_bvector(VALUE object) {
+  BVector *vector;
+  TypedData_Get_Struct(object, BVector, &bvector_type, vector);
+  return vector;
 }
 
-inline BVector *get_bvector( VALUE obj ) {
-  BVector *p_bvector;
-  Data_Get_Struct( obj, BVector, p_bvector );
-  return p_bvector;
-}
-
-void assert_value_wraps_bvector( VALUE obj ) {
-  if ( TYPE(obj) != T_DATA ||
-      RDATA(obj)->dfree != (RUBY_DATA_FUNC)rb_delete_bvector) {
-    rb_raise( rb_eTypeError, "Expected a Baz::Vector object, but got something else" );
-  }
-}
-
-///////////////////////////////////////////////////////////////////////////////
-//
-// Ruby methods exposed in the class API
-//
-
-// Native extensions version of initialize
-VALUE baz_vector_initialize( VALUE self, VALUE init_x, VALUE init_y ) {
-  BVector *p_bvector = get_bvector( self );
-
-  p_bvector->set_xy( NUM2DBL( init_x ), NUM2DBL( init_y ) );
-
+static VALUE baz_vector_initialize(VALUE self, VALUE init_x, VALUE init_y) {
+  BVector *vector = get_bvector(self);
+  vector->set_xy(NUM2DBL(init_x), NUM2DBL(init_y));
   return self;
 }
 
-// Native extensions version of clone
-VALUE baz_vector_initialize_copy( VALUE copy, VALUE orig ) {
-  BVector *bv_copy;
-  BVector *bv_orig;
-
-  if (copy == orig) return copy;
-  bv_copy = get_bvector( copy );
-  bv_orig = get_bvector( orig );
-  memcpy( bv_copy, bv_orig, sizeof(BVector) );
-
+static VALUE baz_vector_initialize_copy(VALUE copy, VALUE original) {
+  if (copy != original) {
+    BVector *copy_vector = get_bvector(copy);
+    const BVector *original_vector = get_bvector(original);
+    // Ruby's clone/dup allocation is followed by C++ value assignment here.
+    *copy_vector = *original_vector;
+  }
   return copy;
 }
 
-// Example of using a "native" struct method
-VALUE baz_vector_magnitude( VALUE self ) {
-  BVector *p_bvector = get_bvector( self );
-  return DBL2NUM( p_bvector->magnitude() );
+static VALUE baz_vector_magnitude(VALUE self) {
+  const BVector *vector = get_bvector(self);
+  return DBL2NUM(vector->magnitude());
 }
 
-///////////////////////////////////////////////////////////////////////////////
-//
-// Build Ruby class <Namespace>::Vector
-//
-
-void init_baz_vector( VALUE parent_module ) {
-  BazVector = rb_define_class_under( parent_module, "Vector", rb_cObject );
-  rb_define_alloc_func( BazVector, bv_alloc );
-  rb_define_method( BazVector, "initialize", (VALUE(*)(ANYARGS))baz_vector_initialize, 2 );
-  rb_define_method( BazVector, "initialize_copy", (VALUE(*)(ANYARGS))baz_vector_initialize_copy, 1 );
-  rb_define_method( BazVector, "magnitude", (VALUE(*)(ANYARGS))baz_vector_magnitude, 0 );
+void init_baz_vector(VALUE parent_module) {
+  baz_vector_class = rb_define_class_under(parent_module, "Vector", rb_cObject);
+  rb_define_alloc_func(baz_vector_class, bvector_alloc);
+  rb_define_method(baz_vector_class, "initialize", RUBY_METHOD_FUNC(baz_vector_initialize), 2);
+  rb_define_method(baz_vector_class, "initialize_copy", RUBY_METHOD_FUNC(baz_vector_initialize_copy), 1);
+  rb_define_method(baz_vector_class, "magnitude", RUBY_METHOD_FUNC(baz_vector_magnitude), 0);
 }

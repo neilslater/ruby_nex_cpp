@@ -12,16 +12,25 @@ Gem::Specification.new do |gem|
   gem.description   = 'Starter gem with native extensions in C++'
   gem.summary       = 'Native extension in C++'
   gem.homepage      = 'https://github.com/neilslater/ruby_nex_cpp'
+  gem.license       = 'MIT'
 
-  gem.required_ruby_version = '>= 2.7.1'
+  gem.required_ruby_version = '>= 3.3'
 
-  gem.add_development_dependency 'rake', '>= 1.9.1'
-  gem.add_development_dependency 'rake-compiler', '>= 0.8.3'
-  gem.add_development_dependency 'rspec', '>= 2.13.0'
+  gem.metadata = {
+    'source_code_uri' => 'https://github.com/neilslater/ruby_nex_cpp',
+    'bug_tracker_uri' => 'https://github.com/neilslater/ruby_nex_cpp/issues',
+    'changelog_uri' => 'https://github.com/neilslater/ruby_nex_cpp/blob/main/CHANGELOG.md',
+    'rubygems_mfa_required' => 'true'
+  }
 
-  gem.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
-  gem.executables   = gem.files.grep(%r{^bin/}).map { |f| File.basename(f) }
-  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
-  gem.extensions    = gem.files.grep(%r{/extconf\.rb$})
+  gem.files = Dir[
+    'CHANGELOG.md',
+    'LICENSE.txt',
+    'README.md',
+    'lib/**/*.rb',
+    'ext/**/*.{cpp,h}',
+    'ext/**/extconf.rb'
+  ]
+  gem.extensions    = ['ext/baz/extconf.rb']
   gem.require_paths = ['lib']
 end

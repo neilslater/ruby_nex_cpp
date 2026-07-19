@@ -11,6 +11,6 @@
 
 #include <ruby.h>
 
-void init_baz_module();
+void init_baz_module(void);
 
 #endif
