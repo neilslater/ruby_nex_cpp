@@ -3,6 +3,8 @@
 *.rbc
 .bundle
 *.bundle
+*.gcda
+*.gcno
 .config
 .yardoc
 InstalledFiles
