@@ -1,10 +1,12 @@
 *.gem
+.DS_Store
 *.rbc
 .bundle
 *.bundle
+*.gcda
+*.gcno
 .config
 .yardoc
-Gemfile.lock
 InstalledFiles
 _yardoc
 coverage
