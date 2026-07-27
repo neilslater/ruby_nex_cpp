@@ -31,7 +31,22 @@ jobs:
         run: bundle exec rake compile
       - name: Run specs
         run: bundle exec rspec
+
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '4.0'
+          bundler-cache: true
       - name: Run RuboCop
         run: bundle exec rubocop
+      - name: Audit dependencies
+        run: bundle exec bundle-audit check --update
+      - name: Check API documentation
+        run: bundle exec yard stats --list-undoc --exclude 'ext/.*'
+      - name: Compile C++ with warnings as errors
+        run: bundle exec rake c:lint
       - name: Build gem
         run: bundle exec gem build baz.gemspec

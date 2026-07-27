@@ -20,3 +20,14 @@ Rake::ExtensionTask.new do |ext|
 end
 
 task default: %i[compile test]
+
+namespace :c do
+  desc 'Compile the C++ extension with warnings treated as errors'
+  task :lint do
+    ENV['BAZ_CXX_WERROR'] = '1'
+    Rake::Task[:clobber].invoke
+    Rake::Task[:compile].invoke
+  ensure
+    ENV.delete('BAZ_CXX_WERROR')
+  end
+end

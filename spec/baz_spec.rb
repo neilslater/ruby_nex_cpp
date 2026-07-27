@@ -1,5 +1,12 @@
 # frozen_string_literal: true
 
+require 'simplecov'
+
+SimpleCov.start do
+  enable_coverage :branch
+  minimum_coverage line: 95, branch: 95
+end
+
 require 'baz'
 
 describe Baz do
