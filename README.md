@@ -41,10 +41,26 @@ A working C++ compiler toolchain is required to build the native extension.
 Install dependencies and run the same core checks as CI with:
 
     bundle install
-    bundle exec rake compile
-    bundle exec rspec
+    bundle exec rake
     bundle exec rubocop
+    bundle exec bundle-audit check --update
+    bundle exec yard stats --list-undoc --exclude 'ext/.*'
     bundle exec gem build baz.gemspec
+
+The native C++ quality checks are also available as Rake tasks:
+
+    bundle exec rake c:lint
+    bundle exec rake c:coverage
+    bundle exec rake c:sanitize
+
+`c:lint` performs a clean C++11 rebuild with strict compiler warnings treated
+as errors. `c:coverage` runs the specs against a GCC-instrumented extension and
+writes HTML, Cobertura XML, and text reports under `coverage/cpp/`.
+`c:sanitize` runs the specs with GCC AddressSanitizer and
+UndefinedBehaviorSanitizer instrumentation. Coverage and sanitizer checks
+require Linux with a Ruby built using genuine GCC; coverage also requires
+`gcovr`. CI is their canonical environment, while `c:lint` is also supported
+locally on macOS.
 
 ## Contributing
 
