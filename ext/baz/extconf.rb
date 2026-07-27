@@ -10,11 +10,6 @@ when 'release'
 when 'lint'
   $CXXFLAGS << ' -std=c++11 -O0 -g'
   $CXXFLAGS << ' -Wall -Wextra -Wpedantic -Wformat=2 -Werror'
-
-  cxx = RbConfig::CONFIG.fetch('CXX')
-  host_os = RbConfig::CONFIG.fetch('host_os')
-  # Ruby 4 headers contain an unused inline parameter under Apple Clang.
-  $CXXFLAGS << ' -Wno-unused-parameter' if cxx.match?(/clang/) || host_os.match?(/darwin/)
 when 'coverage'
   $CXXFLAGS << ' -std=c++11 -O0 -g --coverage'
   $LDFLAGS << ' --coverage'
