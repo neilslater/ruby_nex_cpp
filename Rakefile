@@ -51,6 +51,8 @@ namespace :c do
 
   desc 'Measure C++ coverage using the full Ruby test suite'
   task :coverage do
+    abort 'c:coverage requires Linux' unless RUBY_PLATFORM.match?(/linux/)
+
     cxx = RbConfig::CONFIG.fetch('CXX')
     compiler_version = Open3.capture2e(*Shellwords.split(cxx), '--version').first
 
