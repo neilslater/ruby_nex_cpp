@@ -43,6 +43,7 @@ Install dependencies and run the same core checks as CI with:
     bundle install
     bundle exec rake
     bundle exec rubocop
+    bundle exec ncs-rubocop-conf-audit
     bundle exec bundle-audit check --update
     bundle exec yard stats --list-undoc --exclude 'ext/.*'
     bundle exec gem build baz.gemspec
