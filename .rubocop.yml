@@ -1,21 +1,6 @@
-AllCops:
-  TargetRubyVersion: 3.3
-  NewCops: enable
-
-plugins:
-  - rubocop-rake
-  - rubocop-rspec
-
-Layout/LineLength:
-  Max: 120
-
-Metrics/BlockLength:
-  AllowedMethods:
-    - context
-    - describe
-    - shared_examples
-  
-Style/GlobalVars:
-  AllowedVariables:
-    - $CXXFLAGS
-    - $LDFLAGS
+inherit_gem:
+  ncs_rubocop_conf:
+    - config/base.yml
+    - config/rake.yml
+    - config/rspec.yml
+    - config/native_extension.yml

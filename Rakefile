@@ -42,7 +42,6 @@ end
 
 # Native build orchestration is kept together so every mode shares the same
 # compiler and clean-rebuild safeguards.
-# rubocop:disable Metrics/BlockLength
 namespace :c do
   desc 'Compile the C++ extension with warnings treated as errors'
   task :lint do
@@ -104,4 +103,3 @@ namespace :c do
     )
   end
 end
-# rubocop:enable Metrics/BlockLength

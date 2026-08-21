@@ -45,6 +45,8 @@ jobs:
           bundler-cache: true
       - name: Run RuboCop
         run: bundle exec rubocop
+      - name: Audit RuboCop exceptions
+        run: bundle exec ncs-rubocop-conf-audit
       - name: Audit dependencies
         run: bundle exec bundle-audit check --update
       - name: Check API documentation
