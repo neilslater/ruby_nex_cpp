@@ -58,17 +58,29 @@ static BVector *get_bvector(VALUE object) {
   return vector;
 }
 
-// Implementation of Baz::Vector#initialize. NUM2DBL performs Ruby's numeric
-// conversion and raises TypeError for values that cannot become doubles.
+// NUM2DBL accepts integers, floats, rationals, and suitable to_f objects, but
+// rejects numeric strings. Not every Numeric is convertible, and conversion
+// callbacks can raise their own exceptions, not just TypeError.
 static VALUE baz_vector_initialize(VALUE self, VALUE init_x, VALUE init_y) {
+  rb_check_frozen(self);
   BVector *vector = get_bvector(self);
-  vector->set_xy(NUM2DBL(init_x), NUM2DBL(init_y));
+  // Separate conversions guarantee x-before-y callback order. Only primitive
+  // locals span Ruby calls, which can raise via nonlocal control flow.
+  const double x = NUM2DBL(init_x);
+  const double y = NUM2DBL(init_y);
+  // A conversion callback may freeze self. Defer our assignment until all
+  // checks succeed; arbitrary callback side effects cannot be rolled back.
+  rb_check_frozen(self);
+  vector->set_xy(x, y);
   return self;
 }
 
 // Ruby calls initialize_copy after allocating storage for clone or dup.
 static VALUE baz_vector_initialize_copy(VALUE copy, VALUE original) {
   if (copy != original) {
+    // Preserve Ruby's frozen-destination and same-class checks as well as our
+    // native descriptor checks. Self-copy remains a no-op, even when frozen.
+    rb_obj_init_copy(copy, original);
     BVector *copy_vector = get_bvector(copy);
     const BVector *original_vector = get_bvector(original);
     // Ruby's clone/dup allocation is followed by C++ value assignment here.

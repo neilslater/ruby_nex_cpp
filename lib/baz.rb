@@ -11,12 +11,23 @@ module Baz
 
   # @!parse
   #   # A two-dimensional vector implemented by the native extension.
+  #   #
+  #   # Inherited dup and clone copy native coordinates independently and retain
+  #   # Ruby's usual subclass, singleton-method, and frozen-state behavior.
+  #   # Copy initialization requires the same Ruby class and an unfrozen
+  #   # destination; self-copy is a no-op even when frozen.
   #   class Vector
   #     # @!method initialize(x, y)
-  #     #   Create a vector with numeric coordinates.
-  #     #   @param x [Numeric] horizontal coordinate
-  #     #   @param y [Numeric] vertical coordinate
-  #     #   @raise [TypeError] if either coordinate cannot be converted to a number
+  #     #   Convert x then y to doubles before assigning either coordinate.
+  #     #   Integers, floats, rationals, and suitable to_f objects are accepted;
+  #     #   numeric strings are rejected. Not every Numeric is convertible.
+  #     #   Conversion callback exceptions propagate unchanged. Failed validation
+  #     #   prevents our coordinate assignment, but does not undo callback effects.
+  #     #   @param x [Numeric, #to_f] horizontal coordinate
+  #     #   @param y [Numeric, #to_f] vertical coordinate
+  #     #   @raise [TypeError] if conversion is unsupported or to_f returns a non-Float
+  #     #   @raise [RangeError] if numeric conversion rejects the value, such as a non-real Complex
+  #     #   @raise [FrozenError] if the receiver is frozen on entry or after conversion
   #     #
   #     # @!method magnitude
   #     #   Calculate the vector's Euclidean length.

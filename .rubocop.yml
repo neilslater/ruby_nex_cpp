@@ -4,3 +4,12 @@ inherit_gem:
     - config/rake.yml
     - config/rspec.yml
     - config/native_extension.yml
+
+inherit_mode:
+  merge:
+    - Exclude
+
+# RuboCop rationale: Exclude local agent guidance and research probes to reduce noise when running the quality gate.
+AllCops:
+  Exclude:
+    - 'docs/agent/**/*'
