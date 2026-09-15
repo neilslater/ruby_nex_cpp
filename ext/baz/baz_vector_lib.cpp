@@ -16,5 +16,7 @@ void BVector::set_xy( double ix, double iy ) noexcept {
 }
 
 double BVector::magnitude() const noexcept {
-    return std::sqrt( x * x + y * y );
+    // hypot avoids intermediate overflow/underflow from squaring coordinates
+    // when the final length is still representable as a double.
+    return std::hypot( x, y );
 }
