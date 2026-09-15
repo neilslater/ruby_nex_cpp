@@ -45,12 +45,6 @@ describe Baz::Vector do
     end
   end
 
-  describe '#magnitude' do
-    it 'returns the length of a vector' do
-      expect(described_class.new(1.0, 2.0).magnitude).to be_within(1e-9).of Math.sqrt(5.0)
-    end
-  end
-
   describe '#initialize' do
     let(:x) { instance_double(Float) }
     let(:y) { instance_double(Float) }

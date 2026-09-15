@@ -31,6 +31,12 @@ module Baz
   #     #
   #     # @!method magnitude
   #     #   Calculate the vector's Euclidean length.
+  #     #   Uses the standard hypotenuse calculation to avoid unnecessary
+  #     #   intermediate overflow and underflow. Results retain double precision;
+  #     #   rounding may differ across platforms, and true result overflow can
+  #     #   still produce positive infinity. An infinite coordinate yields positive
+  #     #   infinity even when the other coordinate is NaN. Without infinity,
+  #     #   a NaN coordinate yields NaN.
   #     #   @return [Float] the vector magnitude
   #   end
 
