@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/neilslater/ncs_rubocop_conf.git
-  revision: 985a4b5820edbe05fb1f21d39e700398709d4dbc
-  tag: v0.2.0
+  revision: 2357caa8f891e93a515611b68a394ccd5a66f4e5
+  tag: v0.2.1
   specs:
-    ncs_rubocop_conf (0.2.0)
+    ncs_rubocop_conf (0.2.1)
       rubocop (~> 1.89.0, >= 1.89.0)
       rubocop-rake (~> 0.7.0, >= 0.7.1)
       rubocop-rspec (~> 3.10.0, >= 3.10.2)
@@ -136,7 +136,7 @@ CHECKSUMS
   language_server-protocol (3.17.0.6) sha256=5ef2c0c138f8267e1bc631d3328347d354f96724b0af22f2c79516120443b7f0
   lint_roller (1.1.0) sha256=2c0c845b632a7d172cb849cc90c1bce937a28c5c8ccccb50dfd46a485003cc87
   logger (1.7.0) sha256=196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203
-  ncs_rubocop_conf (0.2.0)
+  ncs_rubocop_conf (0.2.1)
   parallel (2.1.0) sha256=b35258865c2e31134c5ecb708beaaf6772adf9d5efae28e93e99260877b09356
   parser (3.3.12.0) sha256=21a6d7f755d5a24dfbdc6e6b772e4e879a52e7631a88bc5a3a134606052c9828
   pp (0.6.4) sha256=dfcb0fce700c41456265922884f9fe195d7fbb0674a3578e6c0f69588e82b570
